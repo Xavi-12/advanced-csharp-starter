@@ -34,7 +34,7 @@ public static class GenericsExercises
     /// </summary>
     public static T GetLast<T>(T[] items)
     {
-        throw new NotImplementedException();
+        return items[items.Length - 1];
     }
 
     /// <summary>
@@ -44,7 +44,9 @@ public static class GenericsExercises
     /// </summary>
     public static void Swap<T>(ref T a, ref T b)
     {
-        throw new NotImplementedException();
+        T temp = a;
+        a =  b;
+        b = temp;
     }
 
     /// <summary>
@@ -55,7 +57,14 @@ public static class GenericsExercises
     /// </summary>
     public static T[] CreateArray<T>(T item, int count)
     {
-        throw new NotImplementedException();
+        T[] result = new T[count];
+
+        for (int i = 0; i < count; i++ )
+        {
+            result[i] = item;
+        }
+
+        return result;
     }
 
     /// <summary>
@@ -68,7 +77,15 @@ public static class GenericsExercises
     /// </summary>
     public static int IndexOf<T>(T[] items, T target)
     {
-        throw new NotImplementedException();
+        for (int i = 0; i < items.Length; i++)
+        {
+            if (items[i]!.Equals(target))
+            {
+                return i;
+            }
+        }
+
+        return -1;
     }
 
     // ============================================================
@@ -95,7 +112,17 @@ public static class GenericsExercises
     /// </summary>
     public static T FindMax<T>(T[] items) where T : IComparable<T>
     {
-        throw new NotImplementedException();
+        T max = items[0];
+
+        foreach (T item in items)
+        {
+            if (item.CompareTo(max) > 0)
+            {
+                max = item;
+            }
+        }
+
+        return max;
     }
 
     /// <summary>
@@ -103,7 +130,17 @@ public static class GenericsExercises
     /// </summary>
     public static T FindMin<T>(T[] items) where T : IComparable<T>
     {
-        throw new NotImplementedException();
+        T min = items[0];
+
+        foreach (T item in items)
+        {
+            if (item.CompareTo(min) < 0 )
+            {
+                min = item;
+            }
+        }
+
+        return min;
     }
 
     /// <summary>
@@ -115,7 +152,15 @@ public static class GenericsExercises
     /// </summary>
     public static bool IsSorted<T>(T[] items) where T : IComparable<T>
     {
-        throw new NotImplementedException();
+        for (int i = 1; i < items.Length; i++)
+        {
+            if (items[i - 1].CompareTo(items[i]) > 0)
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /// <summary>
@@ -126,7 +171,7 @@ public static class GenericsExercises
     /// </summary>
     public static T CreateInstance<T>() where T : new()
     {
-        throw new NotImplementedException();
+        return new T() ;
     }
 
     // ============================================================
