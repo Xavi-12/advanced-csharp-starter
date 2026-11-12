@@ -45,7 +45,7 @@ public static class GenericsExercises
     public static void Swap<T>(ref T a, ref T b)
     {
         T temp = a;
-        a =  b;
+        a = b;
         b = temp;
     }
 
@@ -59,7 +59,7 @@ public static class GenericsExercises
     {
         T[] result = new T[count];
 
-        for (int i = 0; i < count; i++ )
+        for (int i = 0; i < count; i++)
         {
             result[i] = item;
         }
@@ -134,7 +134,7 @@ public static class GenericsExercises
 
         foreach (T item in items)
         {
-            if (item.CompareTo(min) < 0 )
+            if (item.CompareTo(min) < 0)
             {
                 min = item;
             }
@@ -171,7 +171,7 @@ public static class GenericsExercises
     /// </summary>
     public static T CreateInstance<T>() where T : new()
     {
-        return new T() ;
+        return new T();
     }
 
     // ============================================================
@@ -189,7 +189,7 @@ public static class GenericsExercises
     /// </summary>
     public static KeyValuePair<TKey, TValue> MakePair<TKey, TValue>(TKey key, TValue value)
     {
-        throw new NotImplementedException();
+        return new KeyValuePair<TKey, TValue>(key, value);
     }
 
     /// <summary>
@@ -203,7 +203,14 @@ public static class GenericsExercises
     /// </summary>
     public static TOutput[] Transform<TInput, TOutput>(TInput[] items, Func<TInput, TOutput> transformer)
     {
-        throw new NotImplementedException();
+        TOutput[] result = new TOutput[items.Length];
+
+        for (int i = 0; i < items.Length; i++)
+        {
+            result[i] = transformer(items[i]);
+        }
+
+        return result;
     }
 }
 
@@ -233,7 +240,8 @@ public class Pair<TFirst, TSecond>
 
     public Pair(TFirst first, TSecond second)
     {
-        throw new NotImplementedException();
+        First = first;
+        Second = second;
     }
 
     public TFirst First { get; }
@@ -256,23 +264,30 @@ public class SimpleStack<T>
 {
     private readonly List<T> _items = [];
 
-    public int Count => throw new NotImplementedException();
+    public int Count => _items.Count;
 
-    public bool IsEmpty => throw new NotImplementedException();
+    public bool IsEmpty => _items.Count == 0;
 
     public void Push(T item)
     {
-        throw new NotImplementedException();
+        _items.Add(item);
     }
 
     public T Pop()
     {
-        throw new NotImplementedException();
+        T top = Peek();
+        _items.RemoveAt(_items.Count - 1);
+        return top;
     }
 
     public T Peek()
     {
-        throw new NotImplementedException();
+        if (IsEmpty)
+        {
+            throw new InvalidOperationException("It's empty.");
+        }
+
+        return _items[_items.Count - 1];
     }
 }
 
@@ -294,27 +309,54 @@ public class Result<T>
     // TODO: Implement IsSuccess, IsFailure, Value, and Error properties
     // TODO: Implement static Ok() and Fail() factory methods
 
+    private readonly T? _value;
+    private readonly string? _error;
+
     private Result(bool isSuccess, T? value, string? error)
     {
-        throw new NotImplementedException();
+        IsSuccess = isSuccess;
+        _value = value;
+        _error = error;
     }
 
     public bool IsSuccess { get; }
     public bool IsFailure => !IsSuccess;
 
     // Value should throw InvalidOperationException if IsFailure
-    public T Value => throw new NotImplementedException();
+    public T Value
+    {
+        get
+        {
+            if (IsFailure)
+            {
+                throw new InvalidOperationException("No value.");
+            }
+
+            return _value!;
+        }
+    }
 
     // Error should throw InvalidOperationException if IsSuccess
-    public string Error => throw new NotImplementedException();
+    public string Error
+    {
+        get
+        {
+            if (IsSuccess)
+            {
+                throw new InvalidOperationException("No error.");
+            }
+
+            return _error!;
+        }
+    }
 
     public static Result<T> Ok(T value)
     {
-        throw new NotImplementedException();
+        return new Result<T>(true, value, null);
     }
 
     public static Result<T> Fail(string error)
     {
-        throw new NotImplementedException();
+        return new Result<T>(false, default, error);
     }
 }
