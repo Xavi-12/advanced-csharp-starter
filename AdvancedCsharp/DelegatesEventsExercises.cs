@@ -206,8 +206,8 @@ public class ValuePublisher
         get => _value;
         set
         {
-            // TODO: Set _value and invoke OnValueChanged with the new value
-            throw new NotImplementedException();
+            _value = value;
+            OnValueChanged?.Invoke(_value);
         }
     }
 }
@@ -226,9 +226,12 @@ public class CountdownTimer
 
     public void Start(int from)
     {
-        // TODO: Fire OnTick for each number (from, from-1, ..., 1)
-        // TODO: Fire OnComplete at the end
-        throw new NotImplementedException();
+        for (int i = from; i >= 1; i--)
+        {
+            OnTick?.Invoke(i);
+        }
+
+        OnComplete?.Invoke();
     }
 }
 
@@ -246,17 +249,23 @@ public class NotifyingCalculator
 
     public int Add(int a, int b)
     {
-        throw new NotImplementedException();
+        int result = a + b;
+        OnCalculation?.Invoke($"{a} + {b} = {result}");
+        return result;
     }
 
     public int Subtract(int a, int b)
     {
-        throw new NotImplementedException();
+        int result = a - b;
+        OnCalculation?.Invoke($"{a} - {b} = {result}");
+        return result;
     }
 
     public int Multiply(int a, int b)
     {
-        throw new NotImplementedException();
+        int result = a * b;
+        OnCalculation?.Invoke($"{a} * {b} = {result}");
+        return result;
     }
 }
 
@@ -276,15 +285,16 @@ public class EventTracker
 
     public void SubscribeToValueChanged(ValuePublisher publisher)
     {
-        // TODO: Create a handler that increments EventsFired
-        // TODO: Subscribe to publisher.OnValueChanged
-        // TODO: Store references so we can unsubscribe later
-        throw new NotImplementedException();
+        _handler = value => EventsFired++;
+        _publisher = publisher;
+        _publisher.OnValueChanged += _handler;
     }
 
     public void Unsubscribe()
     {
-        // TODO: Unsubscribe from the publisher's event
-        throw new NotImplementedException();
+        if (_publisher != null)
+        {
+            _publisher.OnValueChanged -= _handler;
+        }
     }
 }
