@@ -20,7 +20,9 @@ public static class RecordsStructsExercises
     /// </summary>
     public static Point2D ModifyPointCopy(Point2D original, int newX)
     {
-        throw new NotImplementedException();
+        Point2D copy = original;
+        copy.X = newX;
+        return copy;
     }
 
     /// <summary>
@@ -30,7 +32,8 @@ public static class RecordsStructsExercises
     /// </summary>
     public static PlayerClass ModifyPlayerScore(PlayerClass player, int newScore)
     {
-        throw new NotImplementedException();
+        player.Score = newScore;
+        return player;
     }
 
     // ============================================================
@@ -43,7 +46,7 @@ public static class RecordsStructsExercises
     /// </summary>
     public static double DistanceFromOrigin(Point2D point)
     {
-        throw new NotImplementedException();
+        return Math.Sqrt(point.X * point.X + point.Y * point.Y);
     }
 
     /// <summary>
@@ -52,7 +55,7 @@ public static class RecordsStructsExercises
     /// </summary>
     public static Point2D AddPoints(Point2D a, Point2D b)
     {
-        throw new NotImplementedException();
+        return new Point2D(a.X + b.X, a.Y + b.Y);
     }
 
     /// <summary>
@@ -61,7 +64,9 @@ public static class RecordsStructsExercises
     /// </summary>
     public static Point2D FindClosestToOrigin(Point2D[] points)
     {
-        throw new NotImplementedException();
+        return points
+            .OrderBy(point => DistanceFromOrigin(point))
+            .FirstOrDefault();
     }
 
     // ============================================================
@@ -74,7 +79,7 @@ public static class RecordsStructsExercises
     /// </summary>
     public static WeaponStats UpgradeWeaponDamage(WeaponStats weapon, int newDamage)
     {
-        throw new NotImplementedException();
+        return weapon with { Damage = newDamage };
     }
 
     /// <summary>
@@ -83,7 +88,7 @@ public static class RecordsStructsExercises
     /// </summary>
     public static bool AreWeaponsEqual(WeaponStats a, WeaponStats b)
     {
-        throw new NotImplementedException();
+        return a == b;
     }
 
     /// <summary>
@@ -92,7 +97,7 @@ public static class RecordsStructsExercises
     /// </summary>
     public static GameItem RenameAndRevalue(GameItem item, string newName, int newValue)
     {
-        throw new NotImplementedException();
+        return item with { Name = newName, Value = newValue };
     }
 
     /// <summary>
@@ -101,7 +106,9 @@ public static class RecordsStructsExercises
     /// </summary>
     public static GameItem? FindMostValuable(GameItem[] items)
     {
-        throw new NotImplementedException();
+        return items
+            .OrderByDescending(item => item.Value)
+            .FirstOrDefault();
     }
 
     /// <summary>
@@ -111,7 +118,9 @@ public static class RecordsStructsExercises
     /// </summary>
     public static GameItem[] ApplyDiscount(GameItem[] items, int discountPercent)
     {
-        throw new NotImplementedException();
+        return items
+            .Select(item => item with { Value = item.Value * (100 - discountPercent) / 100 })
+            .ToArray();
     }
 
     // ============================================================
