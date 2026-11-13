@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace AdvancedCsharp;
 
 /// <summary>
@@ -134,7 +136,7 @@ public static class RecordsStructsExercises
     /// </summary>
     public static int ManhattanDistance(GridPosition a, GridPosition b)
     {
-        throw new NotImplementedException();
+        return Math.Abs(a.X - b.X) + Math.Abs(a.Y - b.Y);
     }
 
     /// <summary>
@@ -143,7 +145,13 @@ public static class RecordsStructsExercises
     /// </summary>
     public static GridPosition[] GetAdjacentPositions(GridPosition pos)
     {
-        throw new NotImplementedException();
+        return new GridPosition[]
+        {
+            pos with { Y = pos.Y - 1 }, // up
+            pos with { Y = pos.Y + 1 }, // down
+            pos with { X = pos.X - 1 }, // left
+            pos with { X = pos.X + 1 }, // right
+        };
     }
 
     /// <summary>
@@ -152,7 +160,7 @@ public static class RecordsStructsExercises
     /// </summary>
     public static bool IsInBounds(GridPosition pos, int width, int height)
     {
-        throw new NotImplementedException();
+        return pos.X >= 0 && pos.X < width && pos.Y >= 0 && pos.Y < height;
     }
 }
 
@@ -220,18 +228,17 @@ public record struct GridPosition(int X, int Y);
 /// </summary>
 public struct Temperature
 {
-    // TODO: Implement
     public double Celsius { get; }
-    public double Fahrenheit => throw new NotImplementedException();
+    public double Fahrenheit => Celsius * 9 / 5 + 32;
 
     public Temperature(double celsius)
     {
-        throw new NotImplementedException();
+        Celsius = celsius;
     }
 
     public static Temperature FromFahrenheit(double fahrenheit)
     {
-        throw new NotImplementedException();
+        return new Temperature((fahrenheit - 32) * 5 / 9);
     }
 }
 
@@ -253,12 +260,17 @@ public record Money(decimal Amount, string Currency)
 {
     public Money Add(Money other)
     {
-        throw new NotImplementedException();
+        if (Currency != other.Currency)
+        {
+            throw new InvalidOperationException("Different currencies.");
+        }
+
+        return new Money(Amount + other.Amount, Currency);
     }
 
     public override string ToString()
     {
-        throw new NotImplementedException();
+        return Amount.ToString("F2", CultureInfo.InvariantCulture) + " " + Currency;
     }
 }
 
@@ -275,16 +287,17 @@ public record OperationResult
 
     private OperationResult(bool success, string? errorMessage)
     {
-        throw new NotImplementedException();
+        Success = success;
+        ErrorMessage = errorMessage;
     }
 
     public static OperationResult Ok()
     {
-        throw new NotImplementedException();
+        return new OperationResult(true, null);
     }
 
     public static OperationResult Error(string message)
     {
-        throw new NotImplementedException();
+        return new OperationResult(false, message);
     }
 }
