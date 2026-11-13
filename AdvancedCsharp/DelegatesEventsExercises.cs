@@ -25,7 +25,7 @@ public static class DelegatesEventsExercises
     /// </summary>
     public static void ExecuteAction(Action action)
     {
-        throw new NotImplementedException();
+        action();
     }
 
     /// <summary>
@@ -34,7 +34,7 @@ public static class DelegatesEventsExercises
     /// </summary>
     public static void ExecuteActionWithValue(Action<int> action, int value)
     {
-        throw new NotImplementedException();
+        action(value);
     }
 
     /// <summary>
@@ -43,7 +43,7 @@ public static class DelegatesEventsExercises
     /// </summary>
     public static int ExecuteFunc(Func<int> func)
     {
-        throw new NotImplementedException();
+        return func();
     }
 
     /// <summary>
@@ -52,7 +52,7 @@ public static class DelegatesEventsExercises
     /// </summary>
     public static TOutput Transform<TInput, TOutput>(TInput input, Func<TInput, TOutput> transformer)
     {
-        throw new NotImplementedException();
+        return transformer(input);
     }
 
     /// <summary>
@@ -61,7 +61,7 @@ public static class DelegatesEventsExercises
     /// </summary>
     public static void ExecuteIfNotNull(Action? action)
     {
-        throw new NotImplementedException();
+        action?.Invoke();
     }
 
     // ============================================================
@@ -74,7 +74,7 @@ public static class DelegatesEventsExercises
     /// </summary>
     public static Action CreateIncrementAction(Counter counter)
     {
-        throw new NotImplementedException();
+        return () => counter.Value++;
     }
 
     /// <summary>
@@ -82,7 +82,7 @@ public static class DelegatesEventsExercises
     /// </summary>
     public static Func<int, int, int> CreateAddFunc()
     {
-        throw new NotImplementedException();
+        return (a, b) => a + b;
     }
 
     /// <summary>
@@ -91,7 +91,7 @@ public static class DelegatesEventsExercises
     /// </summary>
     public static Func<int, bool> CreateIsPositiveFunc()
     {
-        throw new NotImplementedException();
+        return number => number > 0;
     }
 
     /// <summary>
@@ -100,7 +100,9 @@ public static class DelegatesEventsExercises
     /// </summary>
     public static Action CombineActions(Action first, Action second)
     {
-        throw new NotImplementedException();
+        Action combined = first;
+        combined += second;
+        return combined;
     }
 
     // ============================================================
@@ -114,7 +116,17 @@ public static class DelegatesEventsExercises
     /// </summary>
     public static T[] Filter<T>(T[] items, Func<T, bool> predicate)
     {
-        throw new NotImplementedException();
+        List<T> result = new List<T>();
+
+        foreach (T item in items)
+        {
+            if (predicate(item))
+            {
+                result.Add(item);
+            }
+        }
+
+        return result.ToArray();
     }
 
     /// <summary>
@@ -123,7 +135,10 @@ public static class DelegatesEventsExercises
     /// </summary>
     public static void ForEach<T>(T[] items, Action<T> action)
     {
-        throw new NotImplementedException();
+        foreach (T item in items)
+        {
+            action(item);
+        }
     }
 
     /// <summary>
@@ -131,7 +146,15 @@ public static class DelegatesEventsExercises
     /// </summary>
     public static T? FindFirst<T>(T[] items, Func<T, bool> predicate)
     {
-        throw new NotImplementedException();
+        foreach (T item in items)
+        {
+            if (predicate(item))
+            {
+                return item;
+            }
+        }
+
+        return default;
     }
 
     /// <summary>
@@ -139,7 +162,17 @@ public static class DelegatesEventsExercises
     /// </summary>
     public static int CountWhere<T>(T[] items, Func<T, bool> predicate)
     {
-        throw new NotImplementedException();
+        int count = 0;
+
+        foreach (T item in items)
+        {
+            if (predicate(item))
+            {
+                count++;
+            }
+        }
+
+        return count;
     }
 }
 
